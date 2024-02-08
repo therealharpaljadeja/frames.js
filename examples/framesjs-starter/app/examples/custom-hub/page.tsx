@@ -10,10 +10,7 @@ import {
   getFrameMessage,
 } from "frames.js/next/server";
 import Link from "next/link";
-import { DEBUG_HUB_OPTIONS } from "./debug/constants";
 import { getTokenUrl } from "frames.js";
-
-const baseUrl = process.env.NEXT_PUBLIC_HOST || "http://localhost:3000";
 
 type State = {
   active: string;
@@ -38,7 +35,10 @@ export default async function Home({
 }: NextServerPageProps) {
   const previousFrame = getPreviousFrame<State>(searchParams);
 
-  const frameMessage = await getFrameMessage(previousFrame.postBody);
+  const frameMessage = await getFrameMessage(previousFrame.postBody, {
+    hubHttpUrl: "https://hub.freefarcasterhub.com:3281",
+    fetchHubContext: true,
+  });
 
   if (frameMessage && !frameMessage?.isValid) {
     throw new Error("Invalid frame payload");
@@ -72,6 +72,8 @@ export default async function Home({
 
     console.log("info: frameMessage is:", frameMessage);
   }
+
+  const baseUrl = process.env.NEXT_PUBLIC_HOST || "http://localhost:3000";
 
   // then, when done, return next frame
   return (
