@@ -57,7 +57,7 @@ export function getFrameHtmlHead(frame: Frame): string {
         ? `<meta name="fc:frame:button:${index + 1}:action" content="${button.action}"/>`
         : "",
       button.target
-        ? `<meta name="fc:frame:button:${index + 1}:target" content="${button.target}"/>`
+        ? `<meta name="fc:frame:button:${index + 1}:action:target" content="${button.target}"/>`
         : "",
     ]) ?? []),
   ];
